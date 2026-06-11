@@ -1615,6 +1615,431 @@ footer small{
         font-size: 22px;
     }
 }
+.cmt-interface-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            flex-direction: row;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Livvic', sans-serif;
+            background-color: #111;
+            color: #333;
+            overflow: hidden;
+        }
+
+        .cmt-interface-container * {
+            box-sizing: border-box;
+        }
+
+        .cmt-map-viewport-box {
+            flex: 2;
+            position: relative;
+            background-color: #bcdbe5; 
+            overflow: hidden; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+        }
+
+        .cmt-map-canvas-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: 0 0; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .cmt-map-canvas-layer:active {
+            cursor: grabbing;
+        }
+
+        .cmt-map-canvas-layer.cmt-state-dragging {
+            transition: none !important;
+        }
+
+        .cmt-map-wrapper-frame {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cmt-campus-image-element {
+            display: block;
+            max-width: 100vw;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .cmt-map-svg-overlay-pane {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+            z-index: 5;
+        }
+
+        .cmt-route-line-vector {
+            stroke: #ffd700;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 8, 8;
+            animation: cmtRouteDashFlowAnim 2s linear infinite;
+        }
+
+        @keyframes cmtRouteDashFlowAnim {
+            to {
+                stroke-dashoffset: -20;
+            }
+        }
+
+        .cmt-controls-overlay-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 40;
+        }
+
+        .cmt-reset-btn-control {
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .cmt-reset-btn-control:hover { background: rgba(0, 0, 0, 0.95); }
+        .cmt-reset-btn-control.cmt-modifier-danger { background: rgba(180, 40, 40, 0.95); }
+        .cmt-reset-btn-control.cmt-modifier-danger:hover { background: rgb(150, 20, 20); }
+
+        .cmt-pin-dot-node {
+            position: absolute;
+            width: 22px; 
+            height: 22px;
+            border-radius: 50%;
+            border: 2.5px solid #ffffff;
+            cursor: pointer;
+            transform: translate(-50%, -50%) scale(calc(1 / var(--cmt-map-scale-var, 1)));
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, background-color 0.2s;
+            z-index: 10;
+        }
+        .cmt-pin-dot-node:hover {
+            transform: translate(-50%, -50%) scale(calc(1.3 / var(--cmt-map-scale-var, 1)));
+        }
+        .cmt-pin-dot-node.cmt-state-active {
+            transform: translate(-50%, -50%) scale(calc(1.4 / var(--cmt-map-scale-var, 1)));
+            border-color: #ffd700;
+            box-shadow: 0 0 0 calc(6px / var(--cmt-map-scale-var, 1)) rgba(255, 215, 0, 0.4);
+            z-index: 12;
+        }
+
+        .cmt-user-live-dot-element {
+            position: absolute;
+            width: 46px;
+            height: 46px;
+            transform: translate(-50%, -50%) scale(calc(1 / var(--cmt-map-scale-var, 1)));
+            transform-origin: center center;
+            z-index: 35;
+            pointer-events: none;
+            filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.45));
+        }
+
+        .cmt-user-avatar-frame-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3.5px solid #fff;
+            background-color: #005a43;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
+        }
+
+        .cmt-user-avatar-frame-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cmt-user-live-dot-element::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 6px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+        }
+
+        .cmt-destination-star-pin-marker {
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            transform-origin: bottom center;
+            transform: translate(-50%, -85%) scale(calc(1 / var(--cmt-map-scale-var, 1)));
+            z-index: 36;
+            pointer-events: none;
+            filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
+            animation: cmtBouncePinAnimation 2s infinite ease-in-out;
+        }
+
+        .cmt-destination-star-pin-marker img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes cmtBouncePinAnimation {
+            0%, 100% { transform: translate(-50%, -85%) scale(calc(1 / var(--cmt-map-scale-var, 1))); }
+            50% { transform: translate(-50%, -98%) scale(calc(1 / var(--cmt-map-scale-var, 1))); }
+        }
+
+        .cmt-color-blue { background-color: #00A0BE; }
+        .cmt-color-green { background-color: #005a43; }
+        .cmt-color-red { background-color: #b42828; }
+
+        .cmt-info-sidebar-panel {
+            flex: 1;
+            min-width: 380px;
+            max-width: 450px;
+            background-color: #ffffff;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            z-index: 50;
+            padding: 24px;
+        }
+
+        .cmt-bottom-sheet-handle-bar {
+            display: none;
+            width: 100%;
+            padding: 12px 0 6px 0;
+            cursor: grab;
+            text-align: center;
+        }
+        .cmt-bottom-sheet-handle-bar:active {
+            cursor: grabbing;
+        }
+
+        .cmt-bottom-sheet-drag-line {
+            width: 40px;
+            height: 5px;
+            background-color: #ccc;
+            border-radius: 3px;
+            margin: 0 auto 6px auto;
+        }
+
+        .cmt-bottom-sheet-arrow-indicator {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 7px solid #888;
+            transition: transform 0.3s ease;
+        }
+
+        .cmt-nav-widget-card {
+            background-color: #f8faf9;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8e3;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .cmt-nav-widget-card h4 {
+            color: #005a43;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .cmt-nav-field-group {
+            margin-bottom: 14px;
+        }
+        .cmt-nav-field-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        
+        .cmt-nav-field-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1.5px solid #dcdfdc;
+            background-color: #fff;
+            font-size: 15px; 
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+        .cmt-nav-field-group select:focus {
+            border-color: #005a43;
+            box-shadow: 0 0 0 3px rgba(0, 90, 67, 0.1);
+        }
+        
+        .cmt-nav-btn-action {
+            width: 100%;
+            background-color: #005a43;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 6px;
+        }
+        .cmt-nav-btn-action:hover { background-color: #004432; }
+        .cmt-nav-btn-action:active { transform: scale(0.99); }
+
+        .cmt-directions-panel-box {
+            background-color: #fff;
+            border-left: 4px solid #1e558c;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 0 8px 8px 0;
+        }
+        .cmt-directions-panel-box h5 {
+            font-size: 14px;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        .cmt-directions-list-container {
+            padding-left: 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        .cmt-placeholder-state-view {
+            padding: 30px 20px;
+            text-align: center;
+            margin: auto 0;
+            color: #777;
+        }
+        .cmt-placeholder-state-view h3 { color: #2c3e2b; margin-bottom: 8px; }
+
+        .cmt-sidebar-content-scroll { display: flex; flex-direction: column; overflow-y: auto; }
+        .cmt-building-header-image-box { width: 100%; height: 160px; background-color: #ddd; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+        .cmt-building-header-image-box img { width: 100%; height: 100%; object-fit: cover; }
+        .cmt-details-body-wrapper { padding: 16px 0; }
+
+        .cmt-tag-badge {
+            display: inline-block;
+            background-color: #1e558c;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .cmt-building-title-text { font-size: 22px; font-weight: 700; margin-bottom: 12px; color: #111; }
+        .cmt-section-heading-text { font-size: 12px; text-transform: uppercase; color: #666; font-weight: 600; margin-top: 16px; margin-bottom: 6px; }
+        .cmt-building-about-paragraph { font-size: 14px; line-height: 1.6; color: #444; }
+        
+        .cmt-department-list-items { list-style: none; padding: 0; margin-top: 5px; }
+        .cmt-department-list-items li { font-size: 14px; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+
+        .cmt-utility-hidden { display: none !important; }
+
+        /* Mobile Layout Split Fix Viewport Ratio Configurations */
+        @media (max-width: 900px) {
+            .cmt-interface-container { 
+                flex-direction: column; 
+            }
+            .cmt-map-viewport-box {
+                flex: none;
+                width: 100%;
+                height: 42vh; 
+            }
+            
+            .cmt-info-sidebar-panel { 
+                width: 100%; 
+                max-width: 100%; 
+                min-width: 100%;
+                height: 58vh; 
+                box-shadow: 0 -10px 25px rgba(0,0,0,0.1); 
+                border-radius: 20px 20px 0 0; 
+                padding: 18px;
+            }
+
+            .cmt-bottom-sheet-handle-bar {
+                display: block;
+            }
+
+            .cmt-info-sidebar-panel.cmt-state-expanded {
+                height: 85vh;
+            }
+
+            .cmt-nav-widget-card {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+            .cmt-nav-widget-card h4 {
+                font-size: 26px !important;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+            .cmt-nav-field-group {
+                margin-bottom: 8px;
+            }
+            .cmt-nav-field-group select {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            .cmt-nav-btn-action {
+                padding: 10px;
+                font-size: 13px;
+            }
+            .cmt-placeholder-state-view {
+                padding: 15px 10px;
+            }
+        }
 </style>
 </head>
 <body>
@@ -1643,6 +2068,7 @@ footer small{
 <div class="sidebar collapsed">
   <h3>‎ </h3>
   <button onclick="openTab(event,'home')" class="tab active">Home</button>
+<button onclick="openTab(event,'campusmap')" class="tab">Campus Map</button>
   <button onclick="openTab(event,'sao')" class="tab">Student Activities Office</button>
   <button onclick="openTab(event,'op')" class="tab">Office of the Integrated School President</button>
   <button onclick="openTab(event,'ovp')" class="tab">Office of the Vice President</button>
@@ -1809,6 +2235,128 @@ footer small{
   </div>
 </section>
 </div>
+<div id="campusmap" class="tab-content">
+<div class="cmt-interface-container">
+        
+        <div class="cmt-map-viewport-box" id="cmtViewportId">
+            
+            <div class="cmt-controls-overlay-panel">
+                <button class="cmt-reset-btn-control cmt-utility-hidden" id="cmtResetBtnId" onclick="cmtResetGlobalView()">
+                    🔍 Zoom Out Entire Map
+                </button>
+            </div>
+
+            <div class="cmt-map-canvas-layer" id="cmtMapCanvasId">
+                <div class="cmt-map-wrapper-frame" id="cmtMapWrapperId">
+                    
+                    <img src="map.PNG" alt="Campus Map" class="cmt-campus-image-element" id="cmtCampusImgId">
+                    
+                    <svg class="cmt-map-svg-overlay-pane" id="cmtRouteSvgId">
+                        <path id="cmtVisualPathId" class="cmt-route-line-vector" d="" fill="none"/>
+                    </svg>
+
+                    <div id="cmtUserLocationDotId" class="cmt-user-live-dot-element" style="top: 57.2%; left: 37.8%;">
+                        <div class="cmt-user-avatar-frame-box">
+                            <img src="https://inviteme.com.au/cdn/shop/files/img_work_products_01_1200x1200.png?v=1744342444" alt="Student Position Indicator">
+                        </div>
+                    </div>
+
+                    <div id="cmtDestinationStarId" class="cmt-destination-star-pin-marker cmt-utility-hidden">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/073/274/811/small/green-map-pin-location-marker-navigation-symbol-isolated-on-transparent-background-3d-illustration-modern-design-useful-for-travel-direction-and-gps-concepts-png.png" alt="Destination Target Star">
+                    </div>
+
+                    <div id="pin-b1" class="cmt-pin-dot-node cmt-color-blue" style="top: 19.8%; left: 23.4%;" onclick="cmtFocusTargetBuilding('b1', 23.4, 19.8, this)"></div>
+                    <div id="pin-b2" class="cmt-pin-dot-node cmt-color-blue" style="top: 32.2%; left: 15.5%;" onclick="cmtFocusTargetBuilding('b2', 15.5, 32.2, this)"></div>
+                    <div id="pin-b3" class="cmt-pin-dot-node cmt-color-blue" style="top: 61.2%; left: 17.5%;" onclick="cmtFocusTargetBuilding('b3', 17.5, 61.2, this)"></div>
+                    <div id="pin-b4" class="cmt-pin-dot-node cmt-color-blue" style="top: 69.8%; left: 33.2%;" onclick="cmtFocusTargetBuilding('b4', 33.2, 69.8, this)"></div>
+                    <div id="pin-b5" class="cmt-pin-dot-node cmt-color-blue" style="top: 57.2%; left: 37.8%;" onclick="cmtFocusTargetBuilding('b5', 37.8, 57.2, this)"></div>
+                    <div id="pin-b6" class="cmt-pin-dot-node cmt-color-blue" style="top: 51.5%; left: 47.3%;" onclick="cmtFocusTargetBuilding('b6', 47.3, 51.5, this)"></div>
+                    <div id="pin-b7" class="cmt-pin-dot-node cmt-color-blue" style="top: 48.0%; left: 28.5%;" onclick="cmtFocusTargetBuilding('b7', 28.5, 48.0, this)"></div>
+                    <div id="pin-b8" class="cmt-pin-dot-node cmt-color-blue" style="top: 52.8%; left: 26.8%;" onclick="cmtFocusTargetBuilding('b8', 26.8, 52.8, this)"></div>
+                    <div id="pin-b9" class="cmt-pin-dot-node cmt-color-blue" style="top: 53.6%; left: 31.6%;" onclick="cmtFocusTargetBuilding('b9', 31.6, 53.6, this)"></div>
+                    <div id="pin-b10" class="cmt-pin-dot-node cmt-color-blue" style="top: 46.5%; left: 36.2%;" onclick="cmtFocusTargetBuilding('b10', 36.2, 46.5, this)"></div>
+                    <div id="pin-b11" class="cmt-pin-dot-node cmt-color-blue" style="top: 41.5%; left: 41.2%;" onclick="cmtFocusTargetBuilding('b11', 41.2, 41.5, this)"></div>
+                    <div id="pin-b12" class="cmt-pin-dot-node cmt-color-blue" style="top: 37.5%; left: 29.0%;" onclick="cmtFocusTargetBuilding('b12', 29.0, 37.5, this)"></div>
+                    <div id="pin-b13" class="cmt-pin-dot-node cmt-color-blue" style="top: 32.2%; left: 36.2%;" onclick="cmtFocusTargetBuilding('b13', 36.2, 32.2, this)"></div>
+                    <div id="pin-b14" class="cmt-pin-dot-node cmt-color-blue" style="top: 29.5%; left: 39.5%;" onclick="cmtFocusTargetBuilding('b14', 39.5, 29.5, this)"></div>
+                    <div id="pin-b16" class="cmt-pin-dot-node cmt-color-blue" style="top: 21.8%; left: 63.8%;" onclick="cmtFocusTargetBuilding('b16', 63.8, 21.8, this)"></div>
+                    <div id="pin-b17" class="cmt-pin-dot-node cmt-color-blue" style="top: 31.5%; left: 59.0%;" onclick="cmtFocusTargetBuilding('b17', 59.0, 31.5, this)"></div>
+                    <div id="pin-b18" class="cmt-pin-dot-node cmt-color-blue" style="top: 34.0%; left: 49.3%;" onclick="cmtFocusTargetBuilding('b18', 49.3, 34.0, this)"></div>
+                    <div id="pin-b19" class="cmt-pin-dot-node cmt-color-blue" style="top: 33.2%; left: 69.5%;" onclick="cmtFocusTargetBuilding('b19', 69.5, 33.2, this)"></div>
+                    <div id="pin-b20" class="cmt-pin-dot-node cmt-color-blue" style="top: 31.2%; left: 73.0%;" onclick="cmtFocusTargetBuilding('b20', 73.0, 31.2, this)"></div>
+                    <div id="pin-b21" class="cmt-pin-dot-node cmt-color-blue" style="top: 24.5%; left: 75.8%;" onclick="cmtFocusTargetBuilding('b21', 75.8, 24.5, this)"></div>
+                    <div id="pin-b22" class="cmt-pin-dot-node cmt-color-blue" style="top: 24.5%; left: 83.2%;" onclick="cmtFocusTargetBuilding('b22', 83.2, 24.5, this)"></div>
+                    <div id="pin-b23" class="cmt-pin-dot-node cmt-color-blue" style="top: 31.5%; left: 87.2%;" onclick="cmtFocusTargetBuilding('b23', 87.2, 31.5, this)"></div>
+                    <div id="pin-b24" class="cmt-pin-dot-node cmt-color-blue" style="top: 41.2%; left: 67.5%;" onclick="cmtFocusTargetBuilding('b24', 67.5, 41.2, this)"></div>
+                    <div id="pin-b25" class="cmt-pin-dot-node cmt-color-blue" style="top: 44.5%; left: 70.4%;" onclick="cmtFocusTargetBuilding('b25', 70.4, 44.5, this)"></div>
+                    <div id="pin-b26" class="cmt-pin-dot-node cmt-color-blue" style="top: 40.5%; left: 72.8%;" onclick="cmtFocusTargetBuilding('b26', 72.8, 40.5, this)"></div>
+                    <div id="pin-b27" class="cmt-pin-dot-node cmt-color-blue" style="top: 43.5%; left: 75.4%;" onclick="cmtFocusTargetBuilding('b27', 75.4, 43.5, this)"></div>
+                    <div id="pin-b28" class="cmt-pin-dot-node cmt-color-blue" style="top: 78.5%; left: 42.5%;" onclick="cmtFocusTargetBuilding('b28', 42.5, 78.5, this)"></div>
+                    <div id="pin-b29" class="cmt-pin-dot-node cmt-color-blue" style="top: 45.4%; left: 81.2%;" onclick="cmtFocusTargetBuilding('b29', 81.2, 45.4, this)"></div>
+                    <div id="pin-b30" class="cmt-pin-dot-node cmt-color-blue" style="top: 48.0%; left: 69.8%;" onclick="cmtFocusTargetBuilding('b30', 69.8, 48.0, this)"></div>
+                    <div id="pin-b31" class="cmt-pin-dot-node cmt-color-blue" style="top: 52.8%; left: 78.5%;" onclick="cmtFocusTargetBuilding('b31', 78.5, 52.8, this)"></div>
+                    <div id="pin-b32" class="cmt-pin-dot-node cmt-color-blue" style="top: 61.2%; left: 81.2%;" onclick="cmtFocusTargetBuilding('b32', 81.2, 61.2, this)"></div>
+                    <div id="pin-b33" class="cmt-pin-dot-node cmt-color-blue" style="top: 49.5%; left: 83.0%;" onclick="cmtFocusTargetBuilding('b33', 83.0, 49.5, this)"></div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="cmt-info-sidebar-panel" id="cmtInfoSidebarId">
+            <div class="cmt-bottom-sheet-handle-bar" onclick="cmtToggleMobileSidebarView()">
+                <div class="cmt-bottom-sheet-drag-line"></div>
+                <div class="cmt-bottom-sheet-arrow-indicator"></div>
+            </div>
+            
+            <div class="cmt-nav-widget-card">
+                <h4 style="font-family: 'Visby CF Heavy'; font-size: 35px; cursor: pointer; margin: 0;" onclick="cmtToggleMobileSidebarView()">tracker</h4>
+                
+                <div class="cmt-nav-field-group">
+                    <label for="cmtStartLocationId">sn k ngaun</label>
+                    <select id="cmtStartLocationId" onchange="cmtHandleStartLocationChange()">
+                        <option value="" disabled selected>Pili ka simula mo</option>
+                    </select>
+                </div>
+
+                <div class="cmt-nav-field-group">
+                    <label for="cmtEndLocationId">san k punta sis?</label>
+                    <select id="cmtEndLocationId" onchange="cmtHandleEndDropdownChange()">
+                        <option value="" disabled selected>ano destination m</option>
+                    </select>
+                </div>
+                <button class="cmt-nav-btn-action" onclick="cmtEngageLiveTrackingSystem()">ano tara</button>
+            </div>
+
+            <div id="cmtDirectionsCardId" class="cmt-directions-panel-box cmt-utility-hidden">
+                <h5 id="cmtLiveDistanceTextId">Distance: Selecting target...</h5>
+                <ul class="cmt-directions-list-container" style="list-style: none; padding: 0;">
+                    <li style="margin-top: 5px; color: #666; font-size: 11px;">Calculated static distance based on map vector points.</li>
+                </ul>
+            </div>
+
+            <div id="cmtSidebarPlaceholderId" class="cmt-placeholder-state-view">
+                <h3>click k lg te</h3>
+                <p>pindot ka ng bilog o kaya pili k ng bldg n ppuntahan m</p>
+            </div>
+
+            <div id="cmtSidebarContentId" class="cmt-sidebar-content-scroll cmt-utility-hidden">
+                <div class="cmt-building-header-image-box">
+                    <img id="cmtBuildingImgId" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23607d8b'/></svg>" alt="Building Image">
+                </div>
+                <div class="cmt-details-body-wrapper">
+                    <span id="cmtBuildingTagId" class="cmt-tag-badge">Academic Zone</span>
+                    <h2 id="cmtBuildingNameId" class="cmt-building-title-text">Building Name</h2>
+                    <div class="cmt-section-heading-text">About</div>
+                    <p id="cmtBuildingAboutId" class="cmt-building-about-paragraph"></p>
+    
+                    <div class="cmt-section-heading-text">Departments</div>
+                    <ul id="cmtBuildingDepartmentsId" class="cmt-department-list-items"></ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div id="sao" class="tab-content">
   <section class="board-section">
@@ -1820,7 +2368,7 @@ footer small{
       <br>
       <div class="role-group single">
         <div class="person-card">
-          <div class="avatar"><img src="jo.jpg"></div>
+          <div class="avatar"><img src="msjo.jpg"></div>
           <div class="person-info">
             <div class="name">Ms. Jocelyn Rosos</div>
             <div class="role">Moderator, Student Activities Office</div>
@@ -2620,6 +3168,411 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+const cmtBuildingNamesConfig = {
+            b1: "Retreat Complex", b2: "Sports Complex", b3: "CBEAM", b4: "1ST GATE",
+            b5: "MB", b6: "Chez", b7: "JRF", b8: "SC", b9: "JRN", b10: "gzebo",
+            b11: "Diokno", b12: "ictc", b13: "sorry", b14: "Miguel Malvar",
+            b16: "Oval", b17: "Capilla De San Juan Bautista De La Salle", b18: "Sentrum",
+            b19: "Centen A", b20: "Centen B", b21: "Jaime Hilario (JH)", b22: "Brother Benilde (BB)",
+            b23: "idk", b24: "idk", b25: "idk", b26: "St. Brother Miguel Hall", b27: "idk",
+            b28: "idk", b29: "idk", b30: "Claro M. Recto (CMR)", b31: "idk", b32: "College Lobby",
+            b33: "idk"
+        };
+
+        const cmtCampusDatabase = {};
+       
+        for (let i = 1; i <= 33; i++) {
+            const bId = `b${i}`;
+            if (i === 15) continue;
+
+            cmtCampusDatabase[bId] = {
+                pctX: 0, pctY: 0, pinId: `pin-${bId}`,
+                name: cmtBuildingNamesConfig[bId], 
+                tag: "dlsl",
+                about: "qng gus2 nyo lg piru wag n eme",
+                departments: ["qng gus2 nyo lg piru wag n eme"]
+            };
+        }
+
+        const cmtCoordinateDataset = {
+            b1: [23.4, 19.8], b2: [15.5, 32.2], b3: [17.5, 61.2], b4: [33.2, 69.8],
+            b5: [37.8, 57.2], b6: [47.3, 51.5], b7: [28.5, 48.0], b8: [26.8, 52.8],
+            b9: [31.6, 53.6], b10: [36.2, 46.5], b11: [41.2, 41.5], b12: [29.0, 37.5],
+            b13: [36.2, 32.2], b14: [39.5, 29.5], b16: [63.8, 21.8],
+            b17: [59.0, 31.5], b18: [49.3, 34.0], b19: [69.5, 33.2], b20: [73.0, 31.2],
+            b21: [75.8, 24.5], b22: [83.2, 24.5], b23: [87.2, 31.5], b24: [67.5, 41.2],
+            b25: [70.4, 44.5], b26: [72.8, 40.5], b27: [75.4, 43.5], b28: [42.5, 78.5],
+            b29: [81.2, 45.4], b30: [69.8, 48.0], b31: [78.5, 52.8], b32: [81.2, 61.2],
+            b33: [83.0, 49.5]
+        };
+        for (const [key, coords] of Object.entries(cmtCoordinateDataset)) {
+            if (cmtCampusDatabase[key]) {
+                cmtCampusDatabase[key].pctX = coords[0];
+                cmtCampusDatabase[key].pctY = coords[1];
+            }
+        }
+
+        cmtCampusDatabase.b5.tag = "Administrative";
+        cmtCampusDatabase.b5.about = "The Administration Building serves as the operational nerve center of De La Salle Lipa. It houses the offices of the President, Vice Chancellors, and key administrative departments responsible for the university's governance and strategic direction.";
+        cmtCampusDatabase.b5.departments = ["Office of the President", "Office of the Vice Chancellor for Academics", "Human Resources"];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const startSelect = document.getElementById('cmtStartLocationId');
+            const endSelect = document.getElementById('cmtEndLocationId');
+            
+            if (endSelect && startSelect) {
+                endSelect.innerHTML = '<option value="" disabled selected>ano destination m</option>';
+                startSelect.innerHTML = '<option value="" disabled selected>Pili ka simula mo</option>';
+                
+                for (let i = 1; i <= 33; i++) {
+                    if (i === 15) continue;
+                   
+                    const key = `b${i}`;
+                    if (cmtCampusDatabase[key]) {
+                        const name = cmtCampusDatabase[key].name;
+                        
+                        const optionEnd = document.createElement('option');
+                        optionEnd.value = key;
+                        optionEnd.textContent = name;
+                        endSelect.appendChild(optionEnd);
+
+                        const optionStart = document.createElement('option');
+                        optionStart.value = key;
+                        optionStart.textContent = name;
+                        startSelect.appendChild(optionStart);
+                    }
+                }
+            }
+            cmtApplyCanvasTransformation();
+        });
+
+        const cmtCanvasDOM = document.getElementById('cmtMapCanvasId');
+        const cmtViewportDOM = document.getElementById('cmtViewportId');
+        const cmtCampusImgDOM = document.getElementById('cmtCampusImgId');
+        const cmtVisualPathDOM = document.getElementById('cmtVisualPathId');
+        const cmtResetBtnDOM = document.getElementById('cmtResetBtnId');
+        const cmtUserDotDOM = document.getElementById('cmtUserLocationDotId');
+        const cmtDestStarDOM = document.getElementById('cmtDestinationStarId');
+        const cmtSidebarDOM = document.getElementById('cmtInfoSidebarId');
+        
+        let cmtUserCurrentPos = { pctX: 37.8, pctY: 57.2 };
+        let cmtCurrentEndKey = null;
+        let cmtIsTrackingMode = false;
+        let cmtActiveBuildingKey = null;
+        
+        let cmtCurrentZoomLevel = 1;
+        let cmtPanOffsetX = 0;
+        let cmtPanOffsetY = 0;
+        let cmtIsDraggingActive = false;
+        let cmtDragStartX = 0, cmtDragStartY = 0;
+        let cmtInitialPinchDistance = 0;
+        let cmtInitialPinchZoom = 1;
+
+        cmtViewportDOM.addEventListener('mousedown', cmtStartDragGesture);
+        cmtViewportDOM.addEventListener('mousemove', cmtProcessDragMove);
+        window.addEventListener('mouseup', cmtEndDragGesture);
+
+        cmtViewportDOM.addEventListener('touchstart', cmtTouchStartHandler, { passive: false });
+        cmtViewportDOM.addEventListener('touchmove', cmtTouchMoveHandler, { passive: false });
+        window.addEventListener('touchend', cmtEndDragGesture);
+        cmtViewportDOM.addEventListener('wheel', cmtMouseWheelZoomHandler, { passive: false });
+
+        function cmtToggleMobileSidebarView() {
+            if (window.innerWidth <= 900) {
+                cmtSidebarDOM.classList.toggle('cmt-state-expanded');
+            }
+        }
+
+        function cmtStartDragGesture(e) {
+            cmtIsDraggingActive = true;
+            cmtCanvasDOM.classList.add('cmt-state-dragging');
+            cmtDragStartX = e.clientX - cmtPanOffsetX;
+            cmtDragStartY = e.clientY - cmtPanOffsetY;
+        }
+
+        function cmtProcessDragMove(e) {
+            if (!cmtIsDraggingActive) return;
+            if (e.preventDefault) e.preventDefault();
+            
+            cmtPanOffsetX = e.clientX - cmtDragStartX;
+            cmtPanOffsetY = e.clientY - cmtDragStartY;
+            
+            cmtApplyCanvasTransformation();
+        }
+
+        function cmtEndDragGesture() {
+            cmtIsDraggingActive = false;
+            cmtInitialPinchDistance = 0;
+            cmtCanvasDOM.classList.remove('cmt-state-dragging');
+        }
+
+        function cmtTouchStartHandler(e) {
+            if (e.touches.length === 1) {
+                cmtIsDraggingActive = true;
+                cmtCanvasDOM.classList.add('cmt-state-dragging');
+                cmtDragStartX = e.touches[0].clientX - cmtPanOffsetX;
+                cmtDragStartY = e.touches[0].clientY - cmtPanOffsetY;
+            } else if (e.touches.length === 2) {
+                cmtIsDraggingActive = false;
+                cmtCanvasDOM.classList.add('cmt-state-dragging');
+                cmtInitialPinchDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                cmtInitialPinchZoom = cmtCurrentZoomLevel;
+            }
+        }
+
+        function cmtTouchMoveHandler(e) {
+            if (e.preventDefault) e.preventDefault();
+            if (e.touches.length === 1 && cmtIsDraggingActive) {
+                cmtPanOffsetX = e.touches[0].clientX - cmtDragStartX;
+                cmtPanOffsetY = e.touches[0].clientY - cmtDragStartY;
+                cmtApplyCanvasTransformation();
+            } else if (e.touches.length === 2) {
+                const currentDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                if (cmtInitialPinchDistance > 0) {
+                    const pinchScale = currentDistance / cmtInitialPinchDistance;
+                    let targetZoom = cmtInitialPinchZoom * pinchScale;
+                    
+                    if (targetZoom < 0.8) targetZoom = 0.8;
+                    if (targetZoom > 5) targetZoom = 5;
+                    const touchCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                    const touchCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                    cmtZoomToCoordinatesPoint(touchCenterX, touchCenterY, targetZoom);
+                }
+            }
+        }
+
+        function cmtMouseWheelZoomHandler(e) {
+            e.preventDefault();
+            const zoomIntensity = 0.12;
+            let targetZoom = cmtCurrentZoomLevel + (e.deltaY < 0 ? zoomIntensity : -zoomIntensity);
+            if (targetZoom < 0.8) targetZoom = 0.8;
+            if (targetZoom > 5) targetZoom = 5;
+
+            cmtZoomToCoordinatesPoint(e.clientX, e.clientY, targetZoom);
+        }
+
+        function cmtZoomToCoordinatesPoint(clientX, clientY, targetZoom) {
+            const viewportRect = cmtViewportDOM.getBoundingClientRect();
+            const mouseX = clientX - viewportRect.left;
+            const mouseY = clientY - viewportRect.top;
+            cmtPanOffsetX = mouseX - (mouseX - cmtPanOffsetX) * (targetZoom / cmtCurrentZoomLevel);
+            cmtPanOffsetY = mouseY - (mouseY - cmtPanOffsetY) * (targetZoom / cmtCurrentZoomLevel);
+            cmtCurrentZoomLevel = targetZoom;
+
+            cmtApplyCanvasTransformation();
+            cmtEvaluateResetButtonDisplay();
+        }
+
+        function cmtApplyCanvasTransformation() {
+            cmtCanvasDOM.style.transform = `translate(${cmtPanOffsetX}px, ${cmtPanOffsetY}px) scale(${cmtCurrentZoomLevel})`;
+            document.body.style.setProperty('--cmt-map-scale-var', cmtCurrentZoomLevel);
+        }
+
+        function cmtEvaluateResetButtonDisplay() {
+            if (cmtCurrentZoomLevel !== 1 || cmtPanOffsetX !== 0 || cmtPanOffsetY !== 0 || cmtIsTrackingMode) {
+                if (!cmtIsTrackingMode) {
+                    cmtResetBtnDOM.innerText = "🔍 Zoom Out Entire Map";
+                    cmtResetBtnDOM.className = "cmt-reset-btn-control";
+                }
+                cmtResetBtnDOM.classList.remove('cmt-utility-hidden');
+            } else {
+                cmtResetBtnDOM.classList.add('cmt-utility-hidden');
+            }
+        }
+
+        function cmtHandleStartLocationChange() {
+            const startVal = document.getElementById('cmtStartLocationId').value;
+            if (!startVal) return;
+
+            const selectedBuilding = cmtCampusDatabase[startVal];
+            if (selectedBuilding) {
+                cmtUserCurrentPos.pctX = selectedBuilding.pctX;
+                cmtUserCurrentPos.pctY = selectedBuilding.pctY;
+                
+                cmtUserDotDOM.style.left = `${cmtUserCurrentPos.pctX}%`;
+                cmtUserDotDOM.style.top = `${cmtUserCurrentPos.pctY}%`;
+                cmtUserDotDOM.classList.remove('cmt-utility-hidden');
+            }
+
+            if (cmtIsTrackingMode && cmtCurrentEndKey) {
+                cmtRecomputeVectorRouteLine();
+            }
+        }
+
+        function cmtHandleEndDropdownChange() {
+            const end = document.getElementById('cmtEndLocationId').value;
+            if (!end) return;
+
+            const destinationNode = cmtCampusDatabase[end];
+            if (destinationNode) {
+                if (cmtIsTrackingMode) {
+                    cmtVisualPathDOM.setAttribute('d', '');
+                    cmtDestStarDOM.classList.add('cmt-utility-hidden');
+                    document.getElementById('cmtDirectionsCardId').classList.add('cmt-utility-hidden');
+                    cmtIsTrackingMode = false;
+                }
+                cmtFocusTargetBuilding(end, destinationNode.pctX, destinationNode.pctY, document.getElementById(destinationNode.pinId));
+            }
+        }
+
+        function cmtFocusTargetBuilding(key, pctX, pctY, dotElement) {
+            if (cmtActiveBuildingKey === key) {
+                cmtResetGlobalView();
+                return;
+            }
+
+            const data = cmtCampusDatabase[key];
+            if (!data) return;
+            cmtActiveBuildingKey = key;
+
+            document.querySelectorAll('.cmt-pin-dot-node').forEach(p => p.classList.remove('cmt-state-active'));
+            if (dotElement) dotElement.classList.add('cmt-state-active');
+
+            cmtCanvasDOM.classList.remove('cmt-state-dragging'); 
+
+            cmtCurrentZoomLevel = 2.8; 
+            const wrapperWidth = cmtCampusImgDOM.clientWidth;
+            const wrapperHeight = cmtCampusImgDOM.clientHeight;
+            const viewportRect = cmtViewportDOM.getBoundingClientRect();
+
+            const targetX = (pctX / 100) * wrapperWidth;
+            const targetY = (pctY / 100) * wrapperHeight;
+
+            cmtPanOffsetX = (viewportRect.width / 2) - (targetX * cmtCurrentZoomLevel);
+            cmtPanOffsetY = (viewportRect.height / 2) - (targetY * cmtCurrentZoomLevel);
+
+            cmtApplyCanvasTransformation();
+            if (!cmtIsTrackingMode) {
+                cmtResetBtnDOM.innerText = "🔍 Zoom Out Entire Map";
+                cmtResetBtnDOM.className = "cmt-reset-btn-control";
+                cmtResetBtnDOM.classList.remove('cmt-utility-hidden');
+            }
+
+            cmtPopulateSidebarDataDetails(data);
+        }
+
+        function cmtEngageLiveTrackingSystem() {
+            const start = document.getElementById('cmtStartLocationId').value;
+            const end = document.getElementById('cmtEndLocationId').value;
+            
+            if (!start) {
+                alert("Pili ka muna kung saan ka magsisimula te!");
+                document.getElementById('cmtEndLocationId').value = "";
+                return;
+            }
+            if (!end) return;
+            cmtCurrentEndKey = end;
+            cmtIsTrackingMode = true;
+
+            document.querySelectorAll('.cmt-pin-dot-node').forEach(p => p.classList.remove('cmt-state-active'));
+            const destinationNode = cmtCampusDatabase[end];
+            if (destinationNode) {
+                const nodeEl = document.getElementById(destinationNode.pinId);
+                if (nodeEl) nodeEl.classList.add('cmt-state-active');
+                
+                cmtDestStarDOM.style.left = `${destinationNode.pctX}%`;
+                cmtDestStarDOM.style.top = `${destinationNode.pctY}%`;
+                cmtDestStarDOM.classList.remove('cmt-utility-hidden');
+            }
+
+            document.getElementById('cmtDirectionsCardId').classList.remove('cmt-utility-hidden');
+            
+            cmtRecomputeVectorRouteLine();
+            
+            cmtCurrentZoomLevel = 1;
+            cmtPanOffsetX = 0;
+            cmtPanOffsetY = 0;
+            cmtApplyCanvasTransformation();
+
+            cmtResetBtnDOM.innerText = "❌ Clear Route Path";
+            cmtResetBtnDOM.className = "cmt-reset-btn-control cmt-modifier-danger";
+            cmtResetBtnDOM.classList.remove('cmt-utility-hidden');
+
+            if (destinationNode) cmtPopulateSidebarDataDetails(destinationNode);
+        }
+
+        function cmtRecomputeVectorRouteLine() {
+            if (!cmtIsTrackingMode || !cmtCurrentEndKey) return;
+            const destNode = cmtCampusDatabase[cmtCurrentEndKey];
+            const mapWidth = cmtCampusImgDOM.clientWidth;
+            const mapHeight = cmtCampusImgDOM.clientHeight;
+
+            const x1 = (cmtUserCurrentPos.pctX / 100) * mapWidth;
+            const y1 = (cmtUserCurrentPos.pctY / 100) * mapHeight;
+            const x2 = (destNode.pctX / 100) * mapWidth;
+            const y2 = (destNode.pctY / 100) * mapHeight;
+
+            cmtVisualPathDOM.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2}`);
+            const distancePercent = Math.sqrt(Math.pow(destNode.pctX - cmtUserCurrentPos.pctX, 2) + Math.pow(destNode.pctY - cmtUserCurrentPos.pctY, 2));
+            const approximateMeters = Math.round(distancePercent * 6.1);
+            const textEl = document.getElementById('cmtLiveDistanceTextId');
+            if (approximateMeters <= 5) {
+                textEl.innerHTML = "<strong>Arrival state reached!</strong> Object targets are aligned.";
+            } else {
+                textEl.innerHTML = " Est. Walk Distance: <strong>" + approximateMeters + " meters</strong>";
+            }
+        }
+
+        function cmtSyncDropdownValueToPin(key) {
+            const selectEl = document.getElementById('cmtEndLocationId');
+            if (selectEl) {
+                selectEl.value = key;
+            }
+        }
+
+        function cmtPopulateSidebarDataDetails(data) {
+            document.getElementById('cmtSidebarPlaceholderId').classList.add('cmt-utility-hidden');
+            document.getElementById('cmtSidebarContentId').classList.remove('cmt-utility-hidden');
+            
+            document.getElementById('cmtBuildingNameId').innerText = data.name;
+            document.getElementById('cmtBuildingAboutId').innerText = data.about;
+            
+            const tag = document.getElementById('cmtBuildingTagId');
+            tag.innerText = data.tag;
+
+            const list = document.getElementById('cmtBuildingDepartmentsId');
+            list.innerHTML = '';
+            data.departments.forEach(d => {
+                const li = document.createElement('li');
+                li.innerText = d;
+                list.appendChild(li);
+            });
+            cmtSyncDropdownValueToPin(data.pinId.replace('pin-', ''));
+        }
+
+        function cmtResetGlobalView() {
+            cmtCanvasDOM.classList.remove('cmt-state-dragging');
+            cmtCurrentZoomLevel = 1;
+            cmtPanOffsetX = 0;
+            cmtPanOffsetY = 0;
+            cmtApplyCanvasTransformation();
+            
+            cmtIsTrackingMode = false;
+            cmtCurrentEndKey = null;
+            cmtActiveBuildingKey = null;
+            cmtVisualPathDOM.setAttribute('d', ''); 
+            cmtDestStarDOM.classList.add('cmt-utility-hidden');
+            document.getElementById('cmtDirectionsCardId').classList.add('cmt-utility-hidden');
+            cmtResetBtnDOM.classList.add('cmt-utility-hidden');
+            document.querySelectorAll('.cmt-pin-dot-node').forEach(p => p.classList.remove('cmt-state-active'));
+            document.getElementById('cmtSidebarPlaceholderId').classList.remove('cmt-utility-hidden');
+            document.getElementById('cmtSidebarContentId').classList.add('cmt-utility-hidden');
+            document.getElementById('cmtEndLocationId').value = ""; 
+            document.getElementById('cmtStartLocationId').value = "";
+            cmtUserDotDOM.classList.add('cmt-utility-hidden');
+            
+            cmtSidebarDOM.classList.remove('cmt-state-expanded');
+        }
+
+        window.addEventListener('resize', () => {
+            if (cmtIsTrackingMode) cmtRecomputeVectorRouteLine();
+        });
 </script>
 </body>
 </html>
