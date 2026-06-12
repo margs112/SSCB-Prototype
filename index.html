@@ -647,6 +647,33 @@ font-family: "Visby CF Heavy";
   justify-content: center;
   overflow: hidden; 
 }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+   background: url('https://i.pinimg.com/originals/49/d6/c9/49d6c9c45642db999c19257aa074adc5.gif') center 90% / 101% no-repeat;
+  
+  opacity: 0.9; 
+  pointer-events: none;
+  mix-blend-mode: screen; 
+  z-index: 2;
+}
+
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+   background: url('https://i.pinimg.com/originals/1d/d7/7d/1dd77d62c8c89db3b0e6e0142b47807d.gif') center 100% / 101% no-repeat;
+  
+  opacity: 1; 
+  pointer-events: none;
+  mix-blend-mode: screen; 
+  z-index: 2;
+}
+
 .heroop{
   position: relative;
   height: 100vh;
@@ -656,6 +683,19 @@ font-family: "Visby CF Heavy";
   justify-content: center;
   overflow: hidden; 
 }
+.heroop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+   background: url('https://i.pinimg.com/originals/49/d6/c9/49d6c9c45642db999c19257aa074adc5.gif') center 100% / 101% no-repeat;
+  
+  opacity: 0.9; 
+  pointer-events: none;
+  mix-blend-mode: screen; 
+  z-index: 2;
+}
+
  .heroop::after {
   content: "";
   position: absolute;
@@ -679,6 +719,18 @@ font-family: "Visby CF Heavy";
   justify-content: center;
   overflow: hidden; 
 }
+.heroovp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+   background: url('https://i.pinimg.com/originals/49/d6/c9/49d6c9c45642db999c19257aa074adc5.gif') center 100% / 101% no-repeat;
+  
+  opacity: 0.9; 
+  pointer-events: none;
+  mix-blend-mode: screen; 
+  z-index: 2;
+}
 .heroovp::after {
   content: "";
   position: absolute;
@@ -701,18 +753,8 @@ width: 100%; max-width: 1920px; height: auto; display: block; margin: 0 auto; as
 
 
 }
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  
-   background: url('https://i.pinimg.com/originals/1d/d7/7d/1dd77d62c8c89db3b0e6e0142b47807d.gif') center 100% / 101% no-repeat;
-  
-  opacity: 1; 
-  pointer-events: none;
-  mix-blend-mode: screen; 
-  z-index: 2;
-}
+
+
  @media (max-width: 900px) {
 .hero {
   position: relative;
@@ -722,6 +764,18 @@ width: 100%; max-width: 1920px; height: auto; display: block; margin: 0 auto; as
   align-items: center;
   justify-content: center;
   overflow: hidden; 
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+   background: url('https://i.pinimg.com/originals/49/d6/c9/49d6c9c45642db999c19257aa074adc5.gif') center 400% / 175% no-repeat;
+  
+  opacity: 1; 
+  pointer-events: none;
+  mix-blend-mode: screen; 
+  z-index: 2;
 }
 
            .hero::after {
@@ -2367,7 +2421,7 @@ color: #00687a;
 </section>
 </div>
 <div id="campusmap" class="tab-content">
-<div class="cmt-interface-container" id="campusmapstart">
+<div class="cmt-interface-container">
         
         <div class="cmt-map-viewport-box" id="cmtViewportId">
             
@@ -2580,7 +2634,7 @@ color: #00687a;
  
 <div class="scroll-arrow">
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
-       stroke="white" stroke-width="1.2"
+       stroke="var(--dlsl-green)" stroke-width="1.2"
        stroke-linecap="round" stroke-linejoin="round">
     <path d="M6 9l6 6 6-6"/>
   </svg>
@@ -2654,7 +2708,7 @@ color: #00687a;
 <div class="hero-content">
 <div class="scroll-arrow">
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
-       stroke="white" stroke-width="1.2"
+       stroke="var(--dlsl-green)" stroke-width="1.2"
        stroke-linecap="round" stroke-linejoin="round">
     <path d="M6 9l6 6 6-6"/>
   </svg>
